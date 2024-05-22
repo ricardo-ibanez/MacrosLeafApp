@@ -19,11 +19,21 @@ public class TJavaComun {
         String Pablo = "Soy el de la IA";
 
         System.out.println("Soy el de la gráfica interactiva");
+
         System.out.println(Pablo);
+
+
+        System.out.println("Soy el cabezon de los jueguitos");
+        
+
+        System.out.println("Soy el de la IA");
+
+
         System.out.println("Soy el de los jueguitos papa");
 
         String nombre;
         nombre = "Hugo";
+
     }
     
 }
