@@ -15,8 +15,9 @@ public class TJavaComun {
      */
     public static void main(String[] args) {
         // TODO code application logic here
+        String Pablo = "Soy el de la IA";
         System.out.println("Soy el de la gráfica interactiva");
-        System.out.println("Soy el de la IA");
+        System.out.println(Pablo);
         System.out.println("Soy el de los jueguitos papa");
         
     }
