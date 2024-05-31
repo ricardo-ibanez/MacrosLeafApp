@@ -24,16 +24,38 @@ import javax.swing.JOptionPane;
  */
 public class MenuPrincipal extends javax.swing.JFrame {
 
-    /**
-     * Creates new form Main
-     */
+    private String usuario;
+
+   
+    
+  
+    
     public MenuPrincipal() {
         initComponents();
         setLocationRelativeTo(null);
         setResizable(false);
         setTitle("MACROSLEAF");
         setIconImage(getIconImage());
+        
+        
     }
+    
+    public MenuPrincipal(String usuario) {
+       
+        this.usuario=usuario;
+        System.out.println(usuario);
+        initComponents();
+        setLocationRelativeTo(null);
+        setResizable(false);
+        setTitle("MACROSLEAF");
+        setIconImage(getIconImage());
+    }
+
+    
+    
+    
+    
+   
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -48,10 +70,10 @@ public class MenuPrincipal extends javax.swing.JFrame {
         texto = new javax.swing.JLabel();
         btnSalir = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
-        btnSalir1 = new javax.swing.JButton();
-        btnSalir2 = new javax.swing.JButton();
-        btnSalir3 = new javax.swing.JButton();
-        btnSalir4 = new javax.swing.JButton();
+        btnMiDia = new javax.swing.JButton();
+        btnReceta = new javax.swing.JButton();
+        btnPerfil = new javax.swing.JButton();
+        btnAlimento = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
@@ -82,53 +104,53 @@ public class MenuPrincipal extends javax.swing.JFrame {
         jPanel1.setBorder(javax.swing.BorderFactory.createMatteBorder(2, 2, 2, 2, new java.awt.Color(0, 0, 0)));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        btnSalir1.setBackground(new java.awt.Color(0, 153, 0));
-        btnSalir1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        btnSalir1.setForeground(new java.awt.Color(255, 255, 255));
-        btnSalir1.setText("Mi día");
-        btnSalir1.setBorder(new javax.swing.border.MatteBorder(null));
-        btnSalir1.addActionListener(new java.awt.event.ActionListener() {
+        btnMiDia.setBackground(new java.awt.Color(0, 153, 0));
+        btnMiDia.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        btnMiDia.setForeground(new java.awt.Color(255, 255, 255));
+        btnMiDia.setText("Mi día");
+        btnMiDia.setBorder(new javax.swing.border.MatteBorder(null));
+        btnMiDia.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSalir1ActionPerformed(evt);
+                btnMiDiaActionPerformed(evt);
             }
         });
-        jPanel1.add(btnSalir1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 190, 170, 50));
+        jPanel1.add(btnMiDia, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 190, 170, 50));
 
-        btnSalir2.setBackground(new java.awt.Color(0, 153, 0));
-        btnSalir2.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        btnSalir2.setForeground(new java.awt.Color(255, 255, 255));
-        btnSalir2.setText("Crear Receta");
-        btnSalir2.setBorder(new javax.swing.border.MatteBorder(null));
-        btnSalir2.addActionListener(new java.awt.event.ActionListener() {
+        btnReceta.setBackground(new java.awt.Color(0, 153, 0));
+        btnReceta.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        btnReceta.setForeground(new java.awt.Color(255, 255, 255));
+        btnReceta.setText("Crear Receta");
+        btnReceta.setBorder(new javax.swing.border.MatteBorder(null));
+        btnReceta.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSalir2ActionPerformed(evt);
+                btnRecetaActionPerformed(evt);
             }
         });
-        jPanel1.add(btnSalir2, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 430, 170, 50));
+        jPanel1.add(btnReceta, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 430, 170, 50));
 
-        btnSalir3.setBackground(new java.awt.Color(0, 153, 0));
-        btnSalir3.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        btnSalir3.setForeground(new java.awt.Color(255, 255, 255));
-        btnSalir3.setText("Perfil");
-        btnSalir3.setBorder(new javax.swing.border.MatteBorder(null));
-        btnSalir3.addActionListener(new java.awt.event.ActionListener() {
+        btnPerfil.setBackground(new java.awt.Color(0, 153, 0));
+        btnPerfil.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        btnPerfil.setForeground(new java.awt.Color(255, 255, 255));
+        btnPerfil.setText("Perfil");
+        btnPerfil.setBorder(new javax.swing.border.MatteBorder(null));
+        btnPerfil.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSalir3ActionPerformed(evt);
+                btnPerfilActionPerformed(evt);
             }
         });
-        jPanel1.add(btnSalir3, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 190, 170, 50));
+        jPanel1.add(btnPerfil, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 190, 170, 50));
 
-        btnSalir4.setBackground(new java.awt.Color(0, 153, 0));
-        btnSalir4.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        btnSalir4.setForeground(new java.awt.Color(255, 255, 255));
-        btnSalir4.setText("Insertar Alimento");
-        btnSalir4.setBorder(new javax.swing.border.MatteBorder(null));
-        btnSalir4.addActionListener(new java.awt.event.ActionListener() {
+        btnAlimento.setBackground(new java.awt.Color(0, 153, 0));
+        btnAlimento.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        btnAlimento.setForeground(new java.awt.Color(255, 255, 255));
+        btnAlimento.setText("Insertar Alimento");
+        btnAlimento.setBorder(new javax.swing.border.MatteBorder(null));
+        btnAlimento.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSalir4ActionPerformed(evt);
+                btnAlimentoActionPerformed(evt);
             }
         });
-        jPanel1.add(btnSalir4, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 190, 170, 50));
+        jPanel1.add(btnAlimento, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 190, 170, 50));
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/receta_resized.png"))); // NOI18N
         jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 270, 150, 150));
@@ -156,21 +178,30 @@ public class MenuPrincipal extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_btnSalirActionPerformed
 
-    private void btnSalir1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalir1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnSalir1ActionPerformed
+    private void btnMiDiaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMiDiaActionPerformed
+      MiDia m = new MiDia(usuario);
+      m.setVisible(true);
+      this.dispose();
+    }//GEN-LAST:event_btnMiDiaActionPerformed
 
-    private void btnSalir2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalir2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnSalir2ActionPerformed
+    private void btnRecetaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRecetaActionPerformed
+        Recetas r = new Recetas(usuario);
+        r.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnRecetaActionPerformed
 
-    private void btnSalir3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalir3ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnSalir3ActionPerformed
+    private void btnPerfilActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPerfilActionPerformed
+   
+        Perfil p = new Perfil(usuario);
+        p.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnPerfilActionPerformed
 
-    private void btnSalir4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalir4ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnSalir4ActionPerformed
+    private void btnAlimentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAlimentoActionPerformed
+        Alimento a = new Alimento(usuario);
+        a.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnAlimentoActionPerformed
 
     /**
      * @param args the command line arguments
@@ -218,11 +249,11 @@ public class MenuPrincipal extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAlimento;
+    private javax.swing.JButton btnMiDia;
+    private javax.swing.JButton btnPerfil;
+    private javax.swing.JButton btnReceta;
     private javax.swing.JButton btnSalir;
-    private javax.swing.JButton btnSalir1;
-    private javax.swing.JButton btnSalir2;
-    private javax.swing.JButton btnSalir3;
-    private javax.swing.JButton btnSalir4;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JLabel fondo;
     private javax.swing.JLabel jLabel2;

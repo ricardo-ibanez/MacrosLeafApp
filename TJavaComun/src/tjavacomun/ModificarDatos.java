@@ -10,6 +10,7 @@ import java.awt.Image;
 import java.awt.Toolkit;
 import javax.swing.JOptionPane;
 import bbdd.Conexion;
+import static bbdd.Conexion.conectar;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.sql.PreparedStatement;
@@ -23,14 +24,35 @@ import javax.swing.JOptionPane;
  *
  * @author Usuario
  */
-public class Registro extends javax.swing.JFrame {
+public class ModificarDatos extends javax.swing.JFrame {
 
-    public Registro() {
+    String usuario = null;
+
+    public ModificarDatos() {
         initComponents();
         setLocationRelativeTo(null);
         setResizable(false);
         setTitle("MACROSLEAF");
         setIconImage(getIconImage());
+
+    }
+
+    public String getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(String usuario) {
+        this.usuario = usuario;
+    }
+
+    public ModificarDatos(String usuario) {
+        this.usuario = usuario;
+        initComponents();
+        setLocationRelativeTo(null);
+        setResizable(false);
+        setTitle("MACROSLEAF");
+        setIconImage(getIconImage());
+        cargarDatos();
 
     }
 
@@ -48,7 +70,7 @@ public class Registro extends javax.swing.JFrame {
         texto = new javax.swing.JLabel();
         btnSalir = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
-        btnEntrar = new javax.swing.JButton();
+        modificar = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -94,17 +116,17 @@ public class Registro extends javax.swing.JFrame {
         jPanel1.setBorder(javax.swing.BorderFactory.createMatteBorder(2, 2, 2, 2, new java.awt.Color(0, 0, 0)));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        btnEntrar.setBackground(new java.awt.Color(0, 0, 255));
-        btnEntrar.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        btnEntrar.setForeground(new java.awt.Color(255, 255, 255));
-        btnEntrar.setText("Regístrate");
-        btnEntrar.setBorder(new javax.swing.border.MatteBorder(null));
-        btnEntrar.addActionListener(new java.awt.event.ActionListener() {
+        modificar.setBackground(new java.awt.Color(0, 0, 255));
+        modificar.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        modificar.setForeground(new java.awt.Color(255, 255, 255));
+        modificar.setText("Modificar");
+        modificar.setBorder(new javax.swing.border.MatteBorder(null));
+        modificar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnEntrarActionPerformed(evt);
+                modificarActionPerformed(evt);
             }
         });
-        jPanel1.add(btnEntrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 450, 160, 40));
+        jPanel1.add(modificar, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 450, 160, 40));
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(0, 0, 0));
@@ -193,9 +215,11 @@ public class Registro extends javax.swing.JFrame {
         jPanel1.add(txtEmail, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 130, 280, 50));
 
         spinPeso.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        spinPeso.setModel(new javax.swing.SpinnerNumberModel(0, null, 1000, 1));
         jPanel1.add(spinPeso, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 460, 90, 40));
 
         spinAltura.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        spinAltura.setModel(new javax.swing.SpinnerNumberModel(0, null, 1000, 1));
         jPanel1.add(spinAltura, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 350, 90, 40));
 
         txtPass.setBackground(new java.awt.Color(255, 255, 255));
@@ -228,6 +252,7 @@ public class Registro extends javax.swing.JFrame {
         jPanel1.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 410, 130, 30));
 
         spinEdad.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        spinEdad.setModel(new javax.swing.SpinnerNumberModel(0, null, 1000, 1));
         jPanel1.add(spinEdad, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 410, 90, 40));
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 170, 820, 550));
@@ -238,16 +263,15 @@ public class Registro extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnEntrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEntrarActionPerformed
+    private void modificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modificarActionPerformed
 
-            int valuePeso = (int) spinPeso.getValue();
+        int valuePeso = (int) spinPeso.getValue();
         int valueAltura = (int) spinAltura.getValue();
 
-        
         ButtonModel selectedButtonModel = buttonGroup1.getSelection();
         ButtonModel selectedButtonModel1 = buttonGroupSexo.getSelection();
         int selectedObjective = -1; // Por defecto, ningún objetivo seleccionado
-         int selectedSex = -1;
+        int selectedSex = -1;
 
         if (selectedButtonModel != null) {
             if (selectedButtonModel.equals(rBtnPerder.getModel())) {
@@ -283,18 +307,18 @@ public class Registro extends javax.swing.JFrame {
         } else if (buttonGroupSexo.getSelection() == null) {
 
             JOptionPane.showMessageDialog(null, "Debe Marcar un Sexo", "Alerta", JOptionPane.INFORMATION_MESSAGE);
-        }else {
+        } else {
             int respuesta = JOptionPane.showConfirmDialog(null, "¿Estás seguro de que los datos introducidos son correctos?", "Confirmación", JOptionPane.YES_NO_OPTION);
             if (respuesta == JOptionPane.YES_OPTION) {
                 try {
                     Conexion.conectar();
                     PreparedStatement verificar = Conexion.conectar().prepareStatement("SELECT * FROM Usuarios WHERE nombre = ?");
-                    verificar.setString(1, txtUsu.getText());
+                    verificar.setString(1, getUsuario());
                     ResultSet rs = verificar.executeQuery();
                     if (rs.next()) {
-                        JOptionPane.showMessageDialog(null, "Ese Cliente ya existe en nuestra base de datos", "Usuario existente", JOptionPane.WARNING_MESSAGE);
-                    } else {
-                        PreparedStatement insertar = Conexion.conectar().prepareStatement("INSERT INTO Usuarios (nombre,email,contraseña,altura,peso,objetivo,sexo,pesoActual,edad) VALUES (?,?,?,?,?,?,?,?,?)");
+                        String updateSQL = "UPDATE Usuarios SET nombre = ?, email = ?, contraseña = ?, altura = ?, peso = ?, objetivo = ?, sexo = ?, pesoActual = ?, edad = ? WHERE nombre = ?";
+
+                        PreparedStatement insertar = Conexion.conectar().prepareStatement(updateSQL);
                         insertar.setString(1, txtUsu.getText());
                         insertar.setString(2, txtEmail.getText());
                         insertar.setString(3, txtPass.getText());
@@ -304,13 +328,19 @@ public class Registro extends javax.swing.JFrame {
                         insertar.setInt(7, selectedSex);
                         insertar.setString(8, spinPeso.getValue().toString());
                         insertar.setInt(9, (int) spinEdad.getValue());
+                        insertar.setString(10, getUsuario());
+
                         System.out.println(selectedObjective);
                         insertar.executeUpdate();
                         Conexion.conectar().close();
-                        JOptionPane.showMessageDialog(null, "Usuario Registrado con Éxito");
+                        JOptionPane.showMessageDialog(null, "Usuario Actualizado con Éxito");
                         this.dispose();
-                        Main main = new Main();
-                        main.setVisible(true);
+                        Main mp = new Main();
+                        mp.setVisible(true);
+                        this.dispose();
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Ha habido un Error, contacte con el Desarrollador...", "Información", JOptionPane.INFORMATION_MESSAGE);
+
                     }
                 } catch (SQLException e) {
                     System.out.println("Error en la conexión: " + e);
@@ -319,12 +349,11 @@ public class Registro extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, "Introduce los nuevos datos y asegúrate de que sean correctos...", "Información", JOptionPane.INFORMATION_MESSAGE);
             }
         }
-
-    }//GEN-LAST:event_btnEntrarActionPerformed
+    }//GEN-LAST:event_modificarActionPerformed
 
     private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
-        Main main = new Main();
-        main.setVisible(true);
+        MenuPrincipal mp = new MenuPrincipal(usuario);
+        mp.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnSalirActionPerformed
 
@@ -341,7 +370,7 @@ public class Registro extends javax.swing.JFrame {
     }//GEN-LAST:event_rBtnGanarActionPerformed
 
     private void txtUsuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtUsuActionPerformed
-        // TODO add your handling code here:
+
     }//GEN-LAST:event_txtUsuActionPerformed
 
     private void txtEmailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtEmailActionPerformed
@@ -372,27 +401,89 @@ public class Registro extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Registro.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ModificarDatos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Registro.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ModificarDatos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Registro.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ModificarDatos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Registro.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ModificarDatos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Registro().setVisible(true);
+                new ModificarDatos().setVisible(true);
             }
         });
     }
 
+    public void cargarDatos() {
+
+        txtUsu.setText(usuario);
+
+        try {
+            Conexion.conectar();
+            PreparedStatement ps = Conexion.conectar().prepareStatement("SELECT * FROM Usuarios WHERE nombre = ?");
+            ps.setString(1, usuario);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+
+                spinPeso.setValue(rs.getInt(9));
+                spinAltura.setValue(rs.getInt(5));
+                spinEdad.setValue(rs.getInt(10));
+                txtEmail.setText(rs.getString(3));
+                txtPass.setText(rs.getString(4));
+                int sexo = rs.getInt(8);
+
+                if (sexo != -1) {
+
+                    if (sexo == 0) {
+
+                        hombre.setSelected(true);
+                    } else {
+
+                        mujer.setSelected(true);
+
+                    }
+
+                }
+
+                String objetivoBd = rs.getString(7);
+                if (objetivoBd != null) {
+
+                    if (objetivoBd.equals("0")) {
+                        rBtnPerder.setSelected(true);
+
+                    } else if (objetivoBd.equals("1")) {
+                        rBtnGanar.setSelected(true);
+
+                    } else {
+
+                        rBtnMant.setSelected(true);
+
+                    }
+
+                }
+
+            }
+
+            Conexion.conectar().close();
+
+        } catch (SQLException e) {
+
+            System.err.println("Error en la base de datos " + e);
+
+        }
+
+    }
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnEntrar;
     private javax.swing.JButton btnSalir;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.ButtonGroup buttonGroupSexo;
@@ -407,6 +498,7 @@ public class Registro extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JButton modificar;
     private javax.swing.JRadioButton mujer;
     private javax.swing.JRadioButton rBtnGanar;
     private javax.swing.JRadioButton rBtnMant;
