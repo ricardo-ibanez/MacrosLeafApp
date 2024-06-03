@@ -47,11 +47,8 @@ import javax.swing.table.DefaultTableModel;
  */
 public class MiDia extends javax.swing.JFrame {
 
-    
-       /*deberia guardar el id de cada alimento o receta añadida para borrar ese en concreto:
+    /*deberia guardar el id de cada alimento o receta añadida para borrar ese en concreto:
     y luego tengo que restar los macros obtenidos a los de mi IMB*/
-    
-    
     String usuario = null;
     int caloriasPor100 = 0;
     int gramosTotales = 0;
@@ -60,6 +57,10 @@ public class MiDia extends javax.swing.JFrame {
     int hidratosTotales = 0;
     int caloriasTotales = 0;
     public boolean bandera = false;
+    int proteinasTotalesMacros;
+    int grasasTotalesMacros;
+    int carbohidratosTotalesMacros;
+    float caloriasTotalesMacros;
 
     long millisec = System.currentTimeMillis();
     Date fechadehoy = new Date(millisec);
@@ -390,13 +391,14 @@ public class MiDia extends javax.swing.JFrame {
 
         // Limpiar la tabla2 antes de agregar nuevas filas
         modeloTabla2.setRowCount(0);
+        obtenerMacros();
 
         // Agregar una fila a la tabla2 con las sumas de las columnas
         modeloTabla2.addRow(new Object[]{
-            sumas[0] * gramosCliente,
-            sumas[1] * gramosCliente,
-            sumas[2] * gramosCliente,
-            sumas[3] * gramosCliente
+            caloriasTotalesMacros - (sumas[0] * gramosCliente),
+            proteinasTotalesMacros - (sumas[1] * gramosCliente),
+            carbohidratosTotalesMacros - (sumas[2] * gramosCliente),
+            grasasTotalesMacros - (sumas[3] * gramosCliente)
 
         });
     }
@@ -424,6 +426,7 @@ public class MiDia extends javax.swing.JFrame {
                 sumas[1] = rs.getInt(2);
                 sumas[2] = rs.getInt(3);
                 sumas[3] = rs.getInt(4);
+                
             }
 
             // Cerrar los recursos
@@ -435,6 +438,77 @@ public class MiDia extends javax.swing.JFrame {
         }
 
         return sumas;
+    }
+
+    public void obtenerMacros() {
+
+        try {
+            Conexion.conectar();
+            PreparedStatement ps1 = Conexion.conectar().prepareStatement("SELECT * FROM Usuarios WHERE nombre = ?");
+            ps1.setString(1, usuario);
+            ResultSet rs1 = ps1.executeQuery();
+
+            while (rs1.next()) {
+                String sNota;
+                int sexo = rs1.getInt(8);
+                int altura = rs1.getInt(5);
+                int edad = rs1.getInt(10);
+
+                int pesoActual = rs1.getInt(9);
+                int objetivoBd1 = rs1.getInt(7);
+                System.out.println("el objetivo es " + rs1.getInt(7));
+
+                if (sexo == 0) {
+                    // Formula hombre
+
+                    caloriasTotalesMacros = 66 + (13.75f * pesoActual) + (5 * altura) - (6.75f * edad);
+                    System.out.println("El objetivo eeeeeeees: " + objetivoBd1);
+                    if (objetivoBd1 == 0) {
+                        System.out.println("Entra en el objetivo");
+                        caloriasTotalesMacros -= 400;
+
+                    } else if (objetivoBd1 == 1) {
+                        caloriasTotalesMacros += 400;
+
+                    } else {
+
+                    }
+
+                    System.out.println("Calorías totales (hombre): " + caloriasTotalesMacros);
+                } else if (sexo == 1) {
+                    // Formula mujer
+                    caloriasTotalesMacros = 655 + (9.56f * pesoActual) + (1.85f * altura) - (4.68f * edad);
+
+                    if (objetivoBd1 == 0) {
+                        caloriasTotalesMacros -= 300;
+
+                    } else if (objetivoBd1 == 1) {
+                        caloriasTotalesMacros += 300;
+
+                    } else {
+
+                    }
+
+                    System.out.println("Calorías totales (mujer): " + caloriasTotales);
+                } else {
+                    // Sexo no especificado, asignar un valor predeterminado
+                    caloriasTotalesMacros = 0;
+                }
+
+                // Calcular macros para ganar masa muscular
+                proteinasTotalesMacros = (int) (pesoActual * 2.2f);  // 2.2 gramos de proteína por kilogramo de peso corporal
+                grasasTotalesMacros = (int) (caloriasTotalesMacros * 0.3f) / 9;  // 30% de calorías de grasas
+                carbohidratosTotalesMacros = (int) (caloriasTotalesMacros * 0.5f) / 4;
+
+            }
+
+            Conexion.conectar().close();
+
+        } catch (SQLException e) {
+
+            System.err.println("Error en la base de datos " + e);
+
+        }
     }
     private void comboAlimentosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboAlimentosActionPerformed
 
@@ -571,7 +645,6 @@ public class MiDia extends javax.swing.JFrame {
 
             // Eliminar la fila de la base de datos
             eliminarFilaDeBaseDeDatos(nombre);
-           
 
             // Eliminar la fila seleccionada de la JTable
             ((DefaultTableModel) tabla.getModel()).removeRow(row);
